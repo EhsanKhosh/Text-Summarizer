@@ -30,4 +30,4 @@ def create_dirs(paths: list, verbose: bool = True) -> None:
 
 @ensure_annotations
 def get_size(path_to_file: str) -> int:
-    return f'{os.path.getsize(path_to_file)}'
+    return os.path.getsize(path_to_file)

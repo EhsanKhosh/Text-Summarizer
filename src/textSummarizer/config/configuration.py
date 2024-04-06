@@ -2,7 +2,8 @@ from textSummarizer.constants import *
 from textSummarizer.utils.common import read_yaml, create_dirs
 from textSummarizer.entity import (DataIngestionConfig,
                                    DataValidationConfig,
-                                   DataTransformationConfig)
+                                   DataTransformationConfig,
+                                   ModelTrainerConfig)
 
 class ConfigurationManager:
     def __init__(
@@ -13,12 +14,12 @@ class ConfigurationManager:
         self.config = read_yaml(Path(config_filepath))
         self.params = read_yaml(Path(params_filepath))
 
-        create_dirs([self.config.artifacts_root], True)
+        create_dirs([self.config.artifacts_root])
 
     def get_data_ingestion_config(self) -> DataIngestionConfig:
         config = self.config.data_ingestion
 
-        create_dirs([config.root_dir], True)
+        create_dirs([config.root_dir])
 
         data_ingestion_config = DataIngestionConfig(
             root_dir=config.root_dir,
@@ -53,3 +54,25 @@ class ConfigurationManager:
         
         return data_transformation_config
     
+    def get_model_trainer_config(self):
+
+        config = self.config.model_trainer
+        params = self.params.TrainingArguments
+        create_dirs([config.root_dir])
+
+        model_trainer_config = ModelTrainerConfig(
+            root_dir=config.root_dir,
+            data_path=config.data_path,
+            model_ckpt=config.model_ckpt,
+            num_train_epochs=params.num_train_epochs,
+            warmup_steps=params.warmup_steps,
+            per_device_train_batch_size=params.per_device_train_batch_size,
+            weights_decay=params.weights_decay,
+            logging_steps=params.logging_steps,
+            evaluation_strategy=params.evaluation_strategy,
+            eval_steps=params.eval_steps,
+            save_steps=params.save_steps,
+            gradient_accumulation_steps=params.gradient_accumulation_steps
+        )
+
+        return model_trainer_config
