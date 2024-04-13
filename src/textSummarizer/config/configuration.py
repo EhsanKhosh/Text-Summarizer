@@ -76,3 +76,18 @@ class ConfigurationManager:
         )
 
         return model_trainer_config
+
+
+    def get_model_evaluation_config(self) -> EvaluationConfig:
+        config  = self.config.model_evaluation
+        create_dirs([config.root_dir])
+
+        evaluation_config = EvaluationConfig(
+            root_dir = config.root_dir,
+            data_path = config.data_path,
+            model_path = config.model_path,
+            tokenizer_path = config.tokenizer_path,
+            metric_filename = config.metric_filename
+        )
+
+        return evaluation_config
