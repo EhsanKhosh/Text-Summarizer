@@ -3,7 +3,8 @@ from textSummarizer.utils.common import read_yaml, create_dirs
 from textSummarizer.entity import (DataIngestionConfig,
                                    DataValidationConfig,
                                    DataTransformationConfig,
-                                   ModelTrainerConfig)
+                                   ModelTrainerConfig,
+                                   EvaluationConfig)
 
 class ConfigurationManager:
     def __init__(
